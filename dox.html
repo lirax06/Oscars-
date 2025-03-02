@@ -1,0 +1,475 @@
+
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Quizz de los Oscars 2025</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    form {
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    fieldset {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #aaa;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      display: block;
+      margin: 0 auto;
+      margin-top: 10px;
+    }
+    .resultados {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+    }
+  </style>
+  <!-- Incluir Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+</head>
+<body>
+  <h1>Quizz de los Oscars 2025</h1>
+  
+  <!-- Sección para jugadores -->
+  <section id="jugadores">
+    <h2>Envía tus predicciones</h2>
+    <form id="formJugador">
+      <label for="username">Tu nombre:</label>
+      <input type="text" id="username" name="username" required>
+      
+      <!-- 1. Mejor película -->
+      <fieldset>
+        <legend>Mejor película de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorPelicula" value="The Brutalist" required> The Brutalist</label>
+        <label><input type="radio" name="mejorPelicula" value="Anora"> Anora</label>
+        <label><input type="radio" name="mejorPelicula" value="Emilia Pérez"> Emilia Pérez</label>
+        <label><input type="radio" name="mejorPelicula" value="La sustancia"> La sustancia</label>
+        <label><input type="radio" name="mejorPelicula" value="Conclave"> Conclave</label>
+        <label><input type="radio" name="mejorPelicula" value="A Complete Unknown"> A Complete Unknown</label>
+        <label><input type="radio" name="mejorPelicula" value="Wicked"> Wicked</label>
+        <label><input type="radio" name="mejorPelicula" value="Dune: Parte 2"> Dune: Parte 2</label>
+        <label><input type="radio" name="mejorPelicula" value="Nickel Boys"> Nickel Boys</label>
+        <label><input type="radio" name="mejorPelicula" value="Aún estoy aquí"> Aún estoy aquí</label>
+      </fieldset>
+      
+      <!-- 2. Mejor dirección -->
+      <fieldset>
+        <legend>Mejor dirección de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorDireccion" value="Brady Corbet - The Brutalist" required> Brady Corbet - The Brutalist</label>
+        <label><input type="radio" name="mejorDireccion" value="Sean Baker - Anora"> Sean Baker - Anora</label>
+        <label><input type="radio" name="mejorDireccion" value="Jacques Audiard - Emilia Pérez"> Jacques Audiard - Emilia Pérez</label>
+        <label><input type="radio" name="mejorDireccion" value="Coralie Fargeat - La sustancia"> Coralie Fargeat - La sustancia</label>
+        <label><input type="radio" name="mejorDireccion" value="James Mangold - A Complete Unknown"> James Mangold - A Complete Unknown</label>
+      </fieldset>
+      
+      <!-- 3. Mejor actor -->
+      <fieldset>
+        <legend>Mejor actor de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorActor" value="Adrien Brody - The Brutalist" required> Adrien Brody - The Brutalist</label>
+        <label><input type="radio" name="mejorActor" value="Colman Domingo - Las vidas de Sing Sing"> Colman Domingo - Las vidas de Sing Sing</label>
+        <label><input type="radio" name="mejorActor" value="Ralph Fiennes - Conclave"> Ralph Fiennes - Conclave</label>
+        <label><input type="radio" name="mejorActor" value="Timothée Chalamet - A Complete Unknown"> Timothée Chalamet - A Complete Unknown</label>
+        <label><input type="radio" name="mejorActor" value="Sebastian Stan - The Apprentice. La historia de Trump"> Sebastian Stan - The Apprentice. La historia de Trump</label>
+      </fieldset>
+      
+      <!-- 4. Mejor actriz -->
+      <fieldset>
+        <legend>Mejor actriz de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorActriz" value="Demi Moore - La sustancia" required> Demi Moore - La sustancia</label>
+        <label><input type="radio" name="mejorActriz" value="Karla Sofía Gascón - Emilia Pérez"> Karla Sofía Gascón - Emilia Pérez</label>
+        <label><input type="radio" name="mejorActriz" value="Fernanda Torres - Aún estoy aqui"> Fernanda Torres - Aún estoy aqui</label>
+        <label><input type="radio" name="mejorActriz" value="Cynthia Erivo - Wicked"> Cynthia Erivo - Wicked</label>
+        <label><input type="radio" name="mejorActriz" value="Mikey Madison - Anora"> Mikey Madison - Anora</label>
+      </fieldset>
+      
+      <!-- 5. Mejor actriz de reparto -->
+      <fieldset>
+        <legend>Mejor actriz de reparto de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorActrizReparto" value="Monica Barbaro - A Complete Unknown" required> Monica Barbaro - A Complete Unknown</label>
+        <label><input type="radio" name="mejorActrizReparto" value="Ariana Grande - Wicked"> Ariana Grande - Wicked</label>
+        <label><input type="radio" name="mejorActrizReparto" value="Felicity Jones - The Brutalist"> Felicity Jones - The Brutalist</label>
+        <label><input type="radio" name="mejorActrizReparto" value="Isabella Rossellini - Conclave"> Isabella Rossellini - Conclave</label>
+        <label><input type="radio" name="mejorActrizReparto" value="Zoe Saldaña - Emilia Pérez"> Zoe Saldaña - Emilia Pérez</label>
+      </fieldset>
+      
+      <!-- 6. Mejor actor de reparto -->
+      <fieldset>
+        <legend>Mejor actor de reparto de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorActorReparto" value="Guy Pearce - The Brutalist" required> Guy Pearce - The Brutalist</label>
+        <label><input type="radio" name="mejorActorReparto" value="Kieran Culkin - A Real Pain"> Kieran Culkin - A Real Pain</label>
+        <label><input type="radio" name="mejorActorReparto" value="Yura Borisov - Anora"> Yura Borisov - Anora</label>
+        <label><input type="radio" name="mejorActorReparto" value="Edward Norton - A Complete Unknown"> Edward Norton - A Complete Unknown</label>
+        <label><input type="radio" name="mejorActorReparto" value="Jeremy Strong - The Apprentice. La historia de Trump"> Jeremy Strong - The Apprentice. La historia de Trump</label>
+      </fieldset>
+      
+      <!-- 7. Mejor película internacional -->
+      <fieldset>
+        <legend>Mejor película internacional de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorPeliculaInternacional" value="Aún estoy aquí (Brasil)" required> Aún estoy aquí (Brasil)</label>
+        <label><input type="radio" name="mejorPeliculaInternacional" value="La chica de la aguja (Dinamarca)"> La chica de la aguja (Dinamarca)</label>
+        <label><input type="radio" name="mejorPeliculaInternacional" value="La semilla de la higuera sagrada (Alemania)"> La semilla de la higuera sagrada (Alemania)</label>
+        <label><input type="radio" name="mejorPeliculaInternacional" value="Flow, un mundo que salvar (Letonia)"> Flow, un mundo que salvar (Letonia)</label>
+        <label><input type="radio" name="mejorPeliculaInternacional" value="Emilia Pérez (Francia)"> Emilia Pérez (Francia)</label>
+      </fieldset>
+      
+      <!-- 8. Mejor película de animación -->
+      <fieldset>
+        <legend>Mejor película de animación de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorPeliculaAnimacion" value="Flow, un mundo que salvar" required> Flow, un mundo que salvar</label>
+        <label><input type="radio" name="mejorPeliculaAnimacion" value="Intensamente 2"> Intensamente 2</label>
+        <label><input type="radio" name="mejorPeliculaAnimacion" value="Memorias de un caracol"> Memorias de un caracol</label>
+        <label><input type="radio" name="mejorPeliculaAnimacion" value="Wallace y Gromit: La venganza se sirve con plumas"> Wallace y Gromit: La venganza se sirve con plumas</label>
+        <label><input type="radio" name="mejorPeliculaAnimacion" value="Robot salvaje"> Robot salvaje</label>
+      </fieldset>
+      
+      <!-- 9. Mejor canción original -->
+      <fieldset>
+        <legend>Mejor canción original de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorCancionOriginal" value="El Mal - Emilia Pérez" required> El Mal - Emilia Pérez</label>
+        <label><input type="radio" name="mejorCancionOriginal" value="Like a Bird - Las vidas de Sing Sing"> Like a Bird - Las vidas de Sing Sing</label>
+        <label><input type="radio" name="mejorCancionOriginal" value="The Journey - Seis Triple Ocho"> The Journey - Seis Triple Ocho</label>
+        <label><input type="radio" name="mejorCancionOriginal" value="Mi camino - Emilía Pérez"> Mi camino - Emilía Pérez</label>
+        <label><input type="radio" name="mejorCancionOriginal" value="Never too late - Elton John: Never Too Late"> Never too late - Elton John: Never Too Late</label>
+      </fieldset>
+      
+      <!-- 10. Mejor guión original -->
+      <fieldset>
+        <legend>Mejor guión original de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorGuionOriginal" value="Brady Corbet, Mona Fastvold - The Brutalist" required> Brady Corbet, Mona Fastvold - The Brutalist</label>
+        <label><input type="radio" name="mejorGuionOriginal" value="Sean Baker - Anora"> Sean Baker - Anora</label>
+        <label><input type="radio" name="mejorGuionOriginal" value="Jesse Eisenberg - A Real Pain"> Jesse Eisenberg - A Real Pain</label>
+        <label><input type="radio" name="mejorGuionOriginal" value="Moritz Binder, Tim Fehlbaum, Alex David - Septiembre 5"> Moritz Binder, Tim Fehlbaum, Alex David - Septiembre 5</label>
+        <label><input type="radio" name="mejorGuionOriginal" value="Coralie Fargeat - La sustancia"> Coralie Fargeat - La sustancia</label>
+      </fieldset>
+      
+      <!-- 11. Mejor guión adaptado -->
+      <fieldset>
+        <legend>Mejor guión adaptado de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorGuionAdaptado" value="Jay Cocks, James Mangold - A Complete Unknown" required> Jay Cocks, James Mangold - A Complete Unknown</label>
+        <label><input type="radio" name="mejorGuionAdaptado" value="Peter Straughan - Conclave"> Peter Straughan - Conclave</label>
+        <label><input type="radio" name="mejorGuionAdaptado" value="Jacques Audiard - Emilia Pérez"> Jacques Audiard - Emilia Pérez</label>
+        <label><input type="radio" name="mejorGuionAdaptado" value="Clint Bentley, Greg Kwedar, John H. Richardson - Las vidas de Sing Sing"> Clint Bentley, Greg Kwedar, John H. Richardson - Las vidas de Sing Sing</label>
+        <label><input type="radio" name="mejorGuionAdaptado" value="RaMell Ross, Joslyn Barnes - Nickel Boys"> RaMell Ross, Joslyn Barnes - Nickel Boys</label>
+      </fieldset>
+      
+      <!-- 12. Mejor sonido -->
+      <fieldset>
+        <legend>Mejor sonido de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorSonido" value="Tod A. Maitland, Donald Sylvester, Ted Caplan, Paul Massey, David Giammarco - A Complete Unknown" required> Tod A. Maitland, Donald Sylvester, Ted Caplan, Paul Massey, David Giammarco - A Complete Unknown</label>
+        <label><input type="radio" name="mejorSonido" value="Gareth John, Richard King, Ron Bartlett, Doug Hemphill - Dune: Parte 2"> Gareth John, Richard King, Ron Bartlett, Doug Hemphill - Dune: Parte 2</label>
+        <label><input type="radio" name="mejorSonido" value="Erwan Kerzanet, Aymeric Devoldere, Maxence Dussere, Cyril Holtz, Niels Barletta - Emilia Pérez"> Erwan Kerzanet, Aymeric Devoldere, Maxence Dussere, Cyril Holtz, Niels Barletta - Emilia Pérez</label>
+        <label><input type="radio" name="mejorSonido" value="Simon Hayes, Nancy Nugent Title, Jack Dolman, Nelson Marquis, John Marquis - Wicked"> Simon Hayes, Nancy Nugent Title, Jack Dolman, Nelson Marquis, John Marquis - Wicked</label>
+        <label><input type="radio" name="mejorSonido" value="Randy Thom, Brian Chumney, Gary A. Rizzo, Leff Lefferts - Robot salvaje"> Randy Thom, Brian Chumney, Gary A. Rizzo, Leff Lefferts - Robot salvaje</label>
+      </fieldset>
+      
+      <!-- 13. Mejor banda sonora original -->
+      <fieldset>
+        <legend>Mejor banda sonora original de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorBandaSonora" value="Daniel Blumberg - The Brutalist" required> Daniel Blumberg - The Brutalist</label>
+        <label><input type="radio" name="mejorBandaSonora" value="Volker Bertelmann - Conclave"> Volker Bertelmann - Conclave</label>
+        <label><input type="radio" name="mejorBandaSonora" value="Clément Ducol, Camille - Emilia Pérez"> Clément Ducol, Camille - Emilia Pérez</label>
+        <label><input type="radio" name="mejorBandaSonora" value="John Powell, Stephen Schwartz - Wicked"> John Powell, Stephen Schwartz - Wicked</label>
+        <label><input type="radio" name="mejorBandaSonora" value="Kris Bowers - Robot salvaje"> Kris Bowers - Robot salvaje</label>
+      </fieldset>
+      
+      <!-- 14. Mejor diseño de vestuario -->
+      <fieldset>
+        <legend>Mejor diseño de vestuario de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorDisenoVestuarios" value="Arianne Phillips - A Complete Unknown" required> Arianne Phillips - A Complete Unknown</label>
+        <label><input type="radio" name="mejorDisenoVestuarios" value="Lisy Christi - Conclave"> Lisy Christi - Conclave</label>
+        <label><input type="radio" name="mejorDisenoVestuarios" value="Janty Yates, Dave Crossman - Gladiator II"> Janty Yates, Dave Crossman - Gladiator II</label>
+        <label><input type="radio" name="mejorDisenoVestuarios" value="Linda Muir - Nosferatu"> Linda Muir - Nosferatu</label>
+        <label><input type="radio" name="mejorDisenoVestuarios" value="Paul Tazewell - Wicked"> Paul Tazewell - Wicked</label>
+      </fieldset>
+      
+      <!-- 15. Mejores efectos especiales -->
+      <fieldset>
+        <legend>Mejores efectos especiales de los Oscars 2025</legend>
+        <label><input type="radio" name="mejoresEfectosEspeciales" value="Eric Barba, Nelson Sepulveda-Fauser, Daniel Macarin, Shane Mahan - Alien: Romulus" required> Eric Barba, Nelson Sepulveda-Fauser, Daniel Macarin, Shane Mahan - Alien: Romulus</label>
+        <label><input type="radio" name="mejoresEfectosEspeciales" value="Luke Millar, David Clayton, Keith Herft, Peter Stubbs - Better man"> Luke Millar, David Clayton, Keith Herft, Peter Stubbs - Better man</label>
+        <label><input type="radio" name="mejoresEfectosEspeciales" value="Pablo Helman, Jonathan Fawkner, David Shirk, Paul Corbould - Wicked"> Pablo Helman, Jonathan Fawkner, David Shirk, Paul Corbould - Wicked</label>
+        <label><input type="radio" name="mejoresEfectosEspeciales" value="Erik Winquist, Stephen Unterfranz, Paul Story, Rodney Burke - El reino del planeta de los simios"> Erik Winquist, Stephen Unterfranz, Paul Story, Rodney Burke - El reino del planeta de los simios</label>
+        <label><input type="radio" name="mejoresEfectosEspeciales" value="Paul Lambert, Stephen James, Rhys Salcombe, Gerd Nefzer - Dune: Parte 2"> Paul Lambert, Stephen James, Rhys Salcombe, Gerd Nefzer - Dune: Parte 2</label>
+      </fieldset>
+      
+      <!-- 16. Mejor fotografía -->
+      <fieldset>
+        <legend>Mejor fotografía de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorFotografia" value="Greig Fraser - Dune: Parte 2" required> Greig Fraser - Dune: Parte 2</label>
+        <label><input type="radio" name="mejorFotografia" value="Paul Guilhaume - Emilia Pérez"> Paul Guilhaume - Emilia Pérez</label>
+        <label><input type="radio" name="mejorFotografia" value="Edward Lachman - María"> Edward Lachman - María</label>
+        <label><input type="radio" name="mejorFotografia" value="Jarin Blaschke - Nosferatu"> Jarin Blaschke - Nosferatu</label>
+        <label><input type="radio" name="mejorFotografia" value="Lol Crawley - The Brutalist"> Lol Crawley - The Brutalist</label>
+      </fieldset>
+      
+      <!-- 17. Mejor montaje -->
+      <fieldset>
+        <legend>Mejor montaje de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorMontaje" value="Sean Baker - Anora" required> Sean Baker - Anora</label>
+        <label><input type="radio" name="mejorMontaje" value="Myron Kerstein - Wicked"> Myron Kerstein - Wicked</label>
+        <label><input type="radio" name="mejorMontaje" value="Dávid Jancsó - The Brutalist"> Dávid Jancsó - The Brutalist</label>
+        <label><input type="radio" name="mejorMontaje" value="Nick Emerson - Conclave"> Nick Emerson - Conclave</label>
+        <label><input type="radio" name="mejorMontaje" value="Emilia Pérez - Juliette Welfling"> Emilia Pérez - Juliette Welfling</label>
+      </fieldset>
+      
+      <!-- 18. Mejor diseño de producción -->
+      <fieldset>
+        <legend>Mejor diseño de producción de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorDisenoProduccion" value="Judy Becker, Patricia Cuccia - The Brutalist" required> Judy Becker, Patricia Cuccia - The Brutalist</label>
+        <label><input type="radio" name="mejorDisenoProduccion" value="Suzie Davies, Cynthia Sleiter - Conclave"> Suzie Davies, Cynthia Sleiter - Conclave</label>
+        <label><input type="radio" name="mejorDisenoProduccion" value="Patrice Vermette, Shane Vieau - Dune: Parte 2"> Patrice Vermette, Shane Vieau - Dune: Parte 2</label>
+        <label><input type="radio" name="mejorDisenoProduccion" value="Craig Lathrop, Beatrice Brentnerova - Nosferatu"> Craig Lathrop, Beatrice Brentnerova - Nosferatu</label>
+        <label><input type="radio" name="mejorDisenoProduccion" value="Nathan Crowley, Lee Sandales - Wicked"> Nathan Crowley, Lee Sandales - Wicked</label>
+      </fieldset>
+      
+      <!-- 19. Mejor maquillaje y peinado -->
+      <fieldset>
+        <legend>Mejor maquillaje y peinado de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorMaquillaje" value="Michael Marino, David Presto, Crystal Jurado - A Different Man" required> Michael Marino, David Presto, Crystal Jurado - A Different Man</label>
+        <label><input type="radio" name="mejorMaquillaje" value="Julia Floch - Carbonel, Emmanuel Janvier, Jean-Christophe Spadaccini - Emilia Pérez"> Julia Floch - Carbonel, Emmanuel Janvier, Jean-Christophe Spadaccini - Emilia Pérez</label>
+        <label><input type="radio" name="mejorMaquillaje" value="David White, Traci Loader, Suzanne Stokes - Munton Nosferatu"> David White, Traci Loader, Suzanne Stokes - Munton Nosferatu</label>
+        <label><input type="radio" name="mejorMaquillaje" value="Pierre Olivier Persin, Stéphanie Guillon, Marilyne Scarselli - La sustancia"> Pierre Olivier Persin, Stéphanie Guillon, Marilyne Scarselli - La sustancia</label>
+        <label><input type="radio" name="mejorMaquillaje" value="Frances Hannon, Laura Blount, Sarah Nuth - Wicked"> Frances Hannon, Laura Blount, Sarah Nuth - Wicked</label>
+      </fieldset>
+      
+      <!-- 20. Mejor documental -->
+      <fieldset>
+        <legend>Mejor documental de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorDocumental" value="Black Box Diaries" required> Black Box Diaries</label>
+        <label><input type="radio" name="mejorDocumental" value="No Other Land"> No Other Land</label>
+        <label><input type="radio" name="mejorDocumental" value="Porcelain War"> Porcelain War</label>
+        <label><input type="radio" name="mejorDocumental" value="Soundtrack to a Coup d'Etat"> Soundtrack to a Coup d'Etat</label>
+        <label><input type="radio" name="mejorDocumental" value="Sugarcane"> Sugarcane</label>
+      </fieldset>
+      
+      <!-- 21. Mejor corto de animación -->
+      <fieldset>
+        <legend>Mejor corto de animación de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorCortoAnimacion" value="Beautiful men" required> Beautiful men</label>
+        <label><input type="radio" name="mejorCortoAnimacion" value="In the shadow of the cypress"> In the shadow of the cypress</label>
+        <label><input type="radio" name="mejorCortoAnimacion" value="Magic Candies"> Magic Candies</label>
+        <label><input type="radio" name="mejorCortoAnimacion" value="Wander to wonder"> Wander to wonder</label>
+        <label><input type="radio" name="mejorCortoAnimacion" value="Yuck!"> Yuck!</label>
+      </fieldset>
+      
+      <!-- 22. Mejor cortometraje -->
+      <fieldset>
+        <legend>Mejor cortometraje de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorCortometraje" value="A Lien - Anuja" required> A Lien - Anuja</label>
+        <label><input type="radio" name="mejorCortometraje" value="I'm Not a Robot"> I'm Not a Robot</label>
+        <label><input type="radio" name="mejorCortometraje" value="The Last Ranger"> The Last Ranger</label>
+        <label><input type="radio" name="mejorCortometraje" value="The Man Who Could Not Remain Silent"> The Man Who Could Not Remain Silent</label>
+      </fieldset>
+      
+      <!-- 23. Mejor cortometraje documental -->
+      <fieldset>
+        <legend>Mejor cortometraje documental de los Oscars 2025</legend>
+        <label><input type="radio" name="mejorCortometrajeDocumental" value="Death by Numbers" required> Death by Numbers</label>
+        <label><input type="radio" name="mejorCortometrajeDocumental" value="I Am Ready, Warden"> I Am Ready, Warden</label>
+        <label><input type="radio" name="mejorCortometrajeDocumental" value="Incident"> Incident</label>
+        <label><input type="radio" name="mejorCortometrajeDocumental" value="Instruments of a Beating Heart"> Instruments of a Beating Heart</label>
+        <label><input type="radio" name="mejorCortometrajeDocumental" value="The Only Girl in the Orchestra"> The Only Girl in the Orchestra</label>
+      </fieldset>
+      
+      <button type="submit">Enviar Predicciones</button>
+    </form>
+    <div id="mensajeJugador" style="text-align: center;"></div>
+  </section>
+  
+  <hr>
+  
+  <!-- Sección Admin -->
+  <section id="admin">
+    <h2>Panel Admin</h2>
+    <form id="formAdmin">
+      <fieldset>
+        <legend>Ingresar respuestas correctas</legend>
+        <label>Mejor película: <input type="text" name="adminMejorPelicula" required></label>
+        <label>Mejor dirección: <input type="text" name="adminMejorDireccion" required></label>
+        <label>Mejor actor: <input type="text" name="adminMejorActor" required></label>
+        <label>Mejor actriz: <input type="text" name="adminMejorActriz" required></label>
+        <label>Mejor actriz de reparto: <input type="text" name="adminMejorActrizReparto" required></label>
+        <label>Mejor actor de reparto: <input type="text" name="adminMejorActorReparto" required></label>
+        <label>Mejor película internacional: <input type="text" name="adminMejorPeliculaInternacional" required></label>
+        <label>Mejor película de animación: <input type="text" name="adminMejorPeliculaAnimacion" required></label>
+        <label>Mejor canción original: <input type="text" name="adminMejorCancionOriginal" required></label>
+        <label>Mejor guión original: <input type="text" name="adminMejorGuionOriginal" required></label>
+        <label>Mejor guión adaptado: <input type="text" name="adminMejorGuionAdaptado" required></label>
+        <label>Mejor sonido: <input type="text" name="adminMejorSonido" required></label>
+        <label>Mejor banda sonora: <input type="text" name="adminMejorBandaSonora" required></label>
+        <label>Mejor diseño de vestuario: <input type="text" name="adminMejorDisenoVestuarios" required></label>
+        <label>Mejores efectos especiales: <input type="text" name="adminMejoresEfectosEspeciales" required></label>
+        <label>Mejor fotografía: <input type="text" name="adminMejorFotografia" required></label>
+        <label>Mejor montaje: <input type="text" name="adminMejorMontaje" required></label>
+        <label>Mejor diseño de producción: <input type="text" name="adminMejorDisenoProduccion" required></label>
+        <label>Mejor maquillaje y peinado: <input type="text" name="adminMejorMaquillaje" required></label>
+        <label>Mejor documental: <input type="text" name="adminMejorDocumental" required></label>
+        <label>Mejor corto de animación: <input type="text" name="adminMejorCortoAnimacion" required></label>
+        <label>Mejor cortometraje: <input type="text" name="adminMejorCortometraje" required></label>
+        <label>Mejor cortometraje documental: <input type="text" name="adminMejorCortometrajeDocumental" required></label>
+      </fieldset>
+      <button type="submit">Calcular Puntuaciones</button>
+    </form>
+    <div id="resultadoAdmin" class="resultados"></div>
+  </section>
+  
+  <script>
+    // Configuración de Firebase: reemplaza con los datos de tu proyecto
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://TU_PROJECT_ID.firebaseio.com",
+      projectId: "TU_PROJECT_ID",
+      storageBucket: "TU_PROJECT_ID.appspot.com",
+      messagingSenderId: "TU_SENDER_ID",
+      appId: "TU_APP_ID"
+    };
+    
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    
+    // Manejo del envío del formulario de jugadores
+    document.getElementById("formJugador").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      
+      // Recopilar predicciones de cada categoría
+      const predicciones = {
+        mejorPelicula: document.querySelector('input[name="mejorPelicula"]:checked').value,
+        mejorDireccion: document.querySelector('input[name="mejorDireccion"]:checked').value,
+        mejorActor: document.querySelector('input[name="mejorActor"]:checked').value,
+        mejorActriz: document.querySelector('input[name="mejorActriz"]:checked').value,
+        mejorActrizReparto: document.querySelector('input[name="mejorActrizReparto"]:checked').value,
+        mejorActorReparto: document.querySelector('input[name="mejorActorReparto"]:checked').value,
+        mejorPeliculaInternacional: document.querySelector('input[name="mejorPeliculaInternacional"]:checked').value,
+        mejorPeliculaAnimacion: document.querySelector('input[name="mejorPeliculaAnimacion"]:checked').value,
+        mejorCancionOriginal: document.querySelector('input[name="mejorCancionOriginal"]:checked').value,
+        mejorGuionOriginal: document.querySelector('input[name="mejorGuionOriginal"]:checked').value,
+        mejorGuionAdaptado: document.querySelector('input[name="mejorGuionAdaptado"]:checked').value,
+        mejorSonido: document.querySelector('input[name="mejorSonido"]:checked').value,
+        mejorBandaSonora: document.querySelector('input[name="mejorBandaSonora"]:checked').value,
+        mejorDisenoVestuarios: document.querySelector('input[name="mejorDisenoVestuarios"]:checked').value,
+        mejoresEfectosEspeciales: document.querySelector('input[name="mejoresEfectosEspeciales"]:checked').value,
+        mejorFotografia: document.querySelector('input[name="mejorFotografia"]:checked').value,
+        mejorMontaje: document.querySelector('input[name="mejorMontaje"]:checked').value,
+        mejorDisenoProduccion: document.querySelector('input[name="mejorDisenoProduccion"]:checked').value,
+        mejorMaquillaje: document.querySelector('input[name="mejorMaquillaje"]:checked').value,
+        mejorDocumental: document.querySelector('input[name="mejorDocumental"]:checked').value,
+        mejorCortoAnimacion: document.querySelector('input[name="mejorCortoAnimacion"]:checked').value,
+        mejorCortometraje: document.querySelector('input[name="mejorCortometraje"]:checked').value,
+        mejorCortometrajeDocumental: document.querySelector('input[name="mejorCortometrajeDocumental"]:checked').value
+      };
+      
+      // Guardar la predicción en Firebase
+      db.ref("jugadores").push({
+        username: username,
+        predicciones: predicciones
+      }, function(error) {
+        if (error) {
+          document.getElementById("mensajeJugador").innerText = "Error al enviar tus predicciones.";
+        } else {
+          document.getElementById("mensajeJugador").innerText = "Predicciones enviadas. ¡Gracias!";
+          document.getElementById("formJugador").reset();
+        }
+      });
+    });
+    
+    // Manejo del envío del formulario Admin para calcular puntuaciones
+    document.getElementById("formAdmin").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const correctas = {
+        mejorPelicula: e.target.adminMejorPelicula.value,
+        mejorDireccion: e.target.adminMejorDireccion.value,
+        mejorActor: e.target.adminMejorActor.value,
+        mejorActriz: e.target.adminMejorActriz.value,
+        mejorActrizReparto: e.target.adminMejorActrizReparto.value,
+        mejorActorReparto: e.target.adminMejorActorReparto.value,
+        mejorPeliculaInternacional: e.target.adminMejorPeliculaInternacional.value,
+        mejorPeliculaAnimacion: e.target.adminMejorPeliculaAnimacion.value,
+        mejorCancionOriginal: e.target.adminMejorCancionOriginal.value,
+        mejorGuionOriginal: e.target.adminMejorGuionOriginal.value,
+        mejorGuionAdaptado: e.target.adminMejorGuionAdaptado.value,
+        mejorSonido: e.target.adminMejorSonido.value,
+        mejorBandaSonora: e.target.adminMejorBandaSonora.value,
+        mejorDisenoVestuarios: e.target.adminMejorDisenoVestuarios.value,
+        mejoresEfectosEspeciales: e.target.adminMejoresEfectosEspeciales.value,
+        mejorFotografia: e.target.adminMejorFotografia.value,
+        mejorMontaje: e.target.adminMejorMontaje.value,
+        mejorDisenoProduccion: e.target.adminMejorDisenoProduccion.value,
+        mejorMaquillaje: e.target.adminMejorMaquillaje.value,
+        mejorDocumental: e.target.adminMejorDocumental.value,
+        mejorCortoAnimacion: e.target.adminMejorCortoAnimacion.value,
+        mejorCortometraje: e.target.adminMejorCortometraje.value,
+        mejorCortometrajeDocumental: e.target.adminMejorCortometrajeDocumental.value
+      };
+      
+      // Recuperar todas las predicciones de los jugadores
+      db.ref("jugadores").once("value", function(snapshot) {
+        let resultados = [];
+        snapshot.forEach(function(childSnapshot) {
+          const jugador = childSnapshot.val();
+          let score = 0;
+          if (jugador.predicciones.mejorPelicula === correctas.mejorPelicula) score++;
+          if (jugador.predicciones.mejorDireccion === correctas.mejorDireccion) score++;
+          if (jugador.predicciones.mejorActor === correctas.mejorActor) score++;
+          if (jugador.predicciones.mejorActriz === correctas.mejorActriz) score++;
+          if (jugador.predicciones.mejorActrizReparto === correctas.mejorActrizReparto) score++;
+          if (jugador.predicciones.mejorActorReparto === correctas.mejorActorReparto) score++;
+          if (jugador.predicciones.mejorPeliculaInternacional === correctas.mejorPeliculaInternacional) score++;
+          if (jugador.predicciones.mejorPeliculaAnimacion === correctas.mejorPeliculaAnimacion) score++;
+          if (jugador.predicciones.mejorCancionOriginal === correctas.mejorCancionOriginal) score++;
+          if (jugador.predicciones.mejorGuionOriginal === correctas.mejorGuionOriginal) score++;
+          if (jugador.predicciones.mejorGuionAdaptado === correctas.mejorGuionAdaptado) score++;
+          if (jugador.predicciones.mejorSonido === correctas.mejorSonido) score++;
+          if (jugador.predicciones.mejorBandaSonora === correctas.mejorBandaSonora) score++;
+          if (jugador.predicciones.mejorDisenoVestuarios === correctas.mejorDisenoVestuarios) score++;
+          if (jugador.predicciones.mejoresEfectosEspeciales === correctas.mejoresEfectosEspeciales) score++;
+          if (jugador.predicciones.mejorFotografia === correctas.mejorFotografia) score++;
+          if (jugador.predicciones.mejorMontaje === correctas.mejorMontaje) score++;
+          if (jugador.predicciones.mejorDisenoProduccion === correctas.mejorDisenoProduccion) score++;
+          if (jugador.predicciones.mejorMaquillaje === correctas.mejorMaquillaje) score++;
+          if (jugador.predicciones.mejorDocumental === correctas.mejorDocumental) score++;
+          if (jugador.predicciones.mejorCortoAnimacion === correctas.mejorCortoAnimacion) score++;
+          if (jugador.predicciones.mejorCortometraje === correctas.mejorCortometraje) score++;
+          if (jugador.predicciones.mejorCortometrajeDocumental === correctas.mejorCortometrajeDocumental) score++;
+          resultados.push({ username: jugador.username, score: score });
+        });
+        
+        // Ordenar resultados de mayor a menor puntaje
+        resultados.sort((a, b) => b.score - a.score);
+        
+        let html = "<h3>Resultados:</h3><ul>";
+        resultados.forEach(function(item) {
+          html += `<li>${item.username}: ${item.score} punto(s)</li>`;
+        });
+        html += "</ul>";
+        document.getElementById("resultadoAdmin").innerHTML = html;
+      });
+    });
+  </script>
+</body>
+</html>
